@@ -1,15 +1,13 @@
-// components/LoginPage.js
-
-import React, { useState } from 'react';
+/* import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLoginPress = () => {
     // Vérification de l'authentification (pour simplifier, on suppose que les champs sont valides)
-    onLogin(username);
+    navigation.navigate('WelcomePage', { username });
   };
 
   return (
@@ -54,3 +52,4 @@ const styles = StyleSheet.create({
 });
 
 export default LoginPage;
+ */

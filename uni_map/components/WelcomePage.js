@@ -1,27 +1,25 @@
-// components/WelcomePage.js
+/* import React from 'react';
+import { View, Text, Button } from 'react-native';
 
-import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+const WelcomePage = ({ route, navigation }) => {
+  const { username } = route.params;
 
-const WelcomePage = ({ username, onLogout }) => {
+  const handleLogout = () => {
+    navigation.navigate('HomePage');
+  };
+
+  const handleMapNavigation = () => {
+    navigation.navigate('API_map');
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcomeText}>Bienvenue, {username} !</Text>
-      <Button title="Se déconnecter" onPress={onLogout} />
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Bienvenue, {username} !</Text>
+      <Button title="Se déconnecter" onPress={handleLogout} />
+      <Button title="Voir la carte" onPress={handleMapNavigation} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  welcomeText: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-});
-
 export default WelcomePage;
+ */
