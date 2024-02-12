@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, View, TouchableOpacity, Text, Alert, TextInput } from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import * as Location from 'expo-location';
+import MapViewDirections from 'react-native-maps-directions';
+import { GOOGLE_API_KEY } from '/.env'
 
 const facultyCoordinates = {
   latitude: 33.2258,
   longitude: -8.4867,
 };
-
 const locations = [
   {
     name: "Administration",
@@ -121,8 +123,56 @@ const locations = [
   },
 ];
 
+const FACULTY_RADIUS = 100; // Vous pouvez ajuster cette valeur selon votre besoin
+
 export default function API_map() {
   const [mapType, setMapType] = useState("standard");
+  const [userLocation, setUserLocation] = useState(null);
+  const [destination, setDestination] = useState('');
+  const [destinationCoordinates, setDestinationCoordinates] = useState(null);
+  const [distance, setDistance] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const mapViewRef = useRef(null);
+
+  
+  useEffect(() => {
+    const checkUserLocation = async () => {
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+        setUserLocation(location.coords);
+      } catch (error) {
+        console.error('Erreur de récupération de la position:', error);
+      }
+    };
+
+    const interval = setInterval(() => {
+      checkUserLocation();
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const getDestinationCoordinates = async () => {
+    try {
+      const destinationLocation = locations.find(loc => loc.name === destination);
+      if (destinationLocation) {
+        setDestinationCoordinates(destinationLocation.coordinates);
+      } else {
+        Alert.alert('Destination invalide', 'Veuillez sélectionner une destination valide parmi les options disponibles.');
+      }
+    } catch (error) {
+      console.error('Erreur de géocodage de la destination:', error);
+    }
+  };
+
+  const handleGetDirections = () => {
+    if (destination.trim() === '') {
+      Alert.alert('Erreur', 'Veuillez saisir une destination valide.');
+      return;
+    }
+
+    getDestinationCoordinates();
+  };
 
   const toggleMapType = () => {
     setMapType((prevMapType) =>
@@ -130,9 +180,22 @@ export default function API_map() {
     );
   };
 
+  const [tripInfo, setTripInfo] = useState(null);
+
+  const traceRouteOnReady = (args: any) => {
+    if (args) {
+      // args.distance
+      // args.duration
+      setDistance(args.distance);
+      setDuration(args.duration);
+    }
+  };
+
+
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapViewRef}
         minZoomLevel={17}
         maxZoomLevel={20}
         mapType={mapType}
@@ -143,30 +206,70 @@ export default function API_map() {
           longitudeDelta: 0.005,
         }}
         provider={PROVIDER_GOOGLE}
-        showsUserLocation={false}
-        showsMyLocationButton={false}
-        followsUserLocation={false}
+        showsUserLocation={true}
+        followsUserLocation={true}
       >
-        {/* Marqueur pour la faculté */}
         <Marker
-          coordinate={facultyCoordinates}
-          title="Faculté des Sciences et Techniques"
-          description="Settat, Maroc"
-        >
-          <Callout>
-            <Text>Faculté des Sciences et Techniques</Text>
-          </Callout>
-        </Marker>
+  coordinate={facultyCoordinates}
+  title="Faculté des Sciences"
+  description="El jadida, Maroc"
+  showCallout
+>
+  {/* Contenu du callout */}
+  <Callout>
+    <Text>Faculté des Sciences</Text>
+  </Callout>
+</Marker>
 
-        {/* Marqueurs pour les autres emplacements */}
+
         {locations.map((item, index) => (
-          <Marker key={index} coordinate={item.coordinates} title={item.name}>
+          <Marker key={index} coordinate={item.coordinates} title={item.name} description={item.name} showCallout pinColor="black">
             <Callout>
               <Text>{item.name}</Text>
             </Callout>
+            
           </Marker>
         ))}
+
+        {userLocation && (
+          <Marker
+            coordinate={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+            }}
+            title="Votre position"
+            pinColor="blue"
+          />
+        )}
+
+        {destinationCoordinates && userLocation && (
+          <MapViewDirections
+            origin={userLocation}
+            destination={destinationCoordinates}
+            apikey={GOOGLE_API_KEY}
+            strokeWidth={4}
+            strokeColor="hotpink"
+            mode="WALKING"
+            onReady={traceRouteOnReady}
+            // onReady={(result) => {
+            //   console.log('Informations sur le trajet:', result);
+            //   setTripInfo(result);
+            // }}
+          />
+        )}
       </MapView>
+
+      <TextInput
+        style={styles.destinationInput}
+        value={destination}
+        onChangeText={setDestination}
+        placeholder="Entrez votre destination"
+      />
+
+      <TouchableOpacity style={styles.getDirectionsButton} onPress={handleGetDirections}>
+        <Text style={styles.getDirectionsButtonText}>Obtenir des directions</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.mapTypeButton} onPress={toggleMapType}>
         <Text style={styles.mapTypeButtonText}>
           {mapType === "standard"
@@ -174,6 +277,14 @@ export default function API_map() {
             : "Passer à Par défaut"}
         </Text>
       </TouchableOpacity>
+      {distance && duration ? (
+          <View style={styles.tripInfoContainer}>
+            <Text>Distance: {distance.toFixed(2)} km</Text>
+            <Text>Durée estimée: {Math.ceil(duration)} min</Text>
+          </View>
+        ) : null}
+        
+      
     </View>
   );
 }
@@ -185,15 +296,46 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-  mapTypeButton: {
+  destinationInput: {
     position: "absolute",
     top: 16,
     right: 16,
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     padding: 12,
     borderRadius: 8,
+    zIndex: 1,
+  },
+  getDirectionsButton: {
+    position: "absolute",
+    bottom: 16,
+    left: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    padding: 12,
+    borderRadius: 8,
+    zIndex: 1,
+  },
+  getDirectionsButtonText: {
+    fontWeight: "bold",
+  },
+  mapTypeButton: {
+    position: "absolute",
+    top: 16,
+    left: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    padding: 12,
+    borderRadius: 8,
+    zIndex: 1,
   },
   mapTypeButtonText: {
     fontWeight: "bold",
+  },
+  tripInfoContainer: {
+    position: "absolute",
+    bottom: 100,
+    left: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    padding: 12,
+    borderRadius: 8,
+    zIndex: 1,
   },
 });
