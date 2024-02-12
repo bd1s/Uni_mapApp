@@ -3,7 +3,6 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert, TextInput } from "reac
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
-import { GOOGLE_API_KEY } from '/.env'
 
 const facultyCoordinates = {
   latitude: 33.2258,
@@ -246,7 +245,7 @@ export default function API_map() {
           <MapViewDirections
             origin={userLocation}
             destination={destinationCoordinates}
-            apikey={GOOGLE_API_KEY}
+            apikey={'AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4'}
             strokeWidth={4}
             strokeColor="hotpink"
             mode="WALKING"
