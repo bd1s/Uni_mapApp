@@ -133,7 +133,6 @@
 //   const [duration, setDuration] = useState(0);
 //   const mapViewRef = useRef(null);
 
-  
 //   useEffect(() => {
 //     const checkUserLocation = async () => {
 //       try {
@@ -197,7 +196,6 @@
 //       console.error('Erreur lors de la récupération de la position:', error);
 //     }
 //   };
-  
 
 //   return (
 //     <View style={styles.container}>
@@ -228,13 +226,12 @@
 //   </Callout>
 // </Marker>
 
-
 //         {locations.map((item, index) => (
 //           <Marker key={index} coordinate={item.coordinates} title={item.name} description={item.name} showCallout pinColor="black">
 //             <Callout>
 //               <Text>{item.name}</Text>
 //             </Callout>
-            
+
 //           </Marker>
 //         ))}
 
@@ -272,7 +269,7 @@
 //         onChangeText={setDestination}
 //         placeholder="Entrez votre destination"
 //       />
-    
+
 //       <TouchableOpacity style={styles.getDirectionsButton} onPress={handleGetDirections}>
 //         <Text style={styles.getDirectionsButtonText}>Destination</Text>
 //       </TouchableOpacity>
@@ -284,16 +281,14 @@
 //             : "Mode standard"}
 //         </Text>
 //       </TouchableOpacity>
-      
-      
+
 //       {distance && duration ? (
 //           <View style={styles.tripInfoContainer}>
 //             <Text>Distance: {distance.toFixed(2)} km</Text>
 //             <Text>Durée estimée: {Math.ceil(duration)} min</Text>
 //           </View>
 //         ) : null}
-        
-      
+
 //     </View>
 //   );
 // }
@@ -362,11 +357,6 @@
 //     zIndex: 1,
 //   },
 // });
-
-
-
-
-
 
 // NON STABLE_AVEC C
 // import React, { useState, useEffect, useRef } from "react";
@@ -603,13 +593,12 @@
 //   </Callout>
 // </Marker>
 
-
 //         {locations.map((item, index) => (
 //           <Marker key={index} coordinate={item.coordinates} title={item.name} description={item.name} showCallout pinColor="black">
 //             <Callout>
 //               <Text>{item.name}</Text>
 //             </Callout>
-            
+
 //           </Marker>
 //         ))}
 //         {userLocation && (
@@ -774,13 +763,6 @@
 //     zIndex: 1,
 //   },
 // });
-
-
-
-
-
-
-
 
 // STABELE_SK
 
@@ -1051,12 +1033,6 @@
 //   },
 // });
 
-
-
-
-
-
-
 // NON STABLE_SANS C
 
 // import React, { useState, useEffect, useRef } from "react";
@@ -1194,7 +1170,6 @@
 //   const [duration, setDuration] = useState(0);
 //   const mapViewRef = useRef(null);
 
-  
 //   useEffect(() => {
 //     const checkUserLocation = async () => {
 //       try {
@@ -1251,7 +1226,6 @@
 //     }
 //   };
 
-
 //   return (
 //     <View style={styles.container}>
 //       <MapView
@@ -1281,13 +1255,12 @@
 //   </Callout>
 // </Marker>
 
-
 //         {locations.map((item, index) => (
 //           <Marker key={index} coordinate={item.coordinates} title={item.name} description={item.name} showCallout pinColor="black">
 //             <Callout>
 //               <Text>{item.name}</Text>
 //             </Callout>
-            
+
 //           </Marker>
 //         ))}
 
@@ -1343,8 +1316,7 @@
 //             <Text>Durée estimée: {Math.ceil(duration)} min</Text>
 //           </View>
 //         ) : null}
-        
-      
+
 //     </View>
 //   );
 // }
@@ -1399,7 +1371,6 @@
 //     zIndex: 1,
 //   },
 // });
-
 
 // import React, { useState, useEffect, useRef } from "react";
 // import { StyleSheet, View, TouchableOpacity, Text, Alert, TextInput } from "react-native";
@@ -1536,7 +1507,6 @@
 //   const [duration, setDuration] = useState(0);
 //   const mapViewRef = useRef(null);
 
-  
 //   useEffect(() => {
 //     const checkUserLocation = async () => {
 //       try {
@@ -1593,7 +1563,6 @@
 //     }
 //   };
 
-
 //   return (
 //     <View style={styles.container}>
 //       <MapView
@@ -1623,13 +1592,12 @@
 //   </Callout>
 // </Marker>
 
-
 //         {locations.map((item, index) => (
 //           <Marker key={index} coordinate={item.coordinates} title={item.name} description={item.name} showCallout pinColor="black">
 //             <Callout>
 //               <Text>{item.name}</Text>
 //             </Callout>
-            
+
 //           </Marker>
 //         ))}
 
@@ -1685,8 +1653,7 @@
 //             <Text>Durée estimée: {Math.ceil(duration)} min</Text>
 //           </View>
 //         ) : null}
-        
-      
+
 //     </View>
 //   );
 // }
@@ -1742,12 +1709,19 @@
 //   },
 // });
 
-
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Alert, TextInput } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Alert,
+  TextInput,
+  Image,
+} from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
-import * as Location from 'expo-location';
-import MapViewDirections from 'react-native-maps-directions';
+import * as Location from "expo-location";
+import MapViewDirections from "react-native-maps-directions";
 
 const facultyCoordinates = {
   latitude: 33.2258,
@@ -1873,13 +1847,12 @@ const FACULTY_RADIUS = 100;
 export default function API_map() {
   const [mapType, setMapType] = useState("standard");
   const [userLocation, setUserLocation] = useState(null);
-  const [destination, setDestination] = useState('');
+  const [destination, setDestination] = useState("");
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
-  const userPinImage = require('./pin.png');
-  const destinationPinImage = require('./pin.png');
-
+  const blackMarker = require("./assets/marker-black.png");
+  const whiteMarker = require("./assets/marker-black.png");
 
   useEffect(() => {
     const checkUserLocation = async () => {
@@ -1892,30 +1865,35 @@ export default function API_map() {
           longitudeDelta: 0.002,
         });
       } catch (error) {
-        console.error('Erreur de récupération de la position:', error);
+        console.error("Erreur de récupération de la position:", error);
       }
     };
 
     checkUserLocation();
-
   }, []);
 
   const getDestinationCoordinates = async () => {
     try {
-      const destinationLocation = locations.find(loc => loc.name === destination);
+      const destinationLocation = locations.find(
+        (loc) => loc.name === destination
+      );
+      console.log(destinationLocation);
       if (destinationLocation) {
         setDestinationCoordinates(destinationLocation.coordinates);
       } else {
-        Alert.alert('Destination invalide', 'Veuillez saisir une destination valide');
+        Alert.alert(
+          "Destination invalide",
+          "Veuillez saisir une destination valide"
+        );
       }
     } catch (error) {
-      console.error('Erreur de géocodage de la destination:', error);
+      console.error("Erreur de géocodage de la destination:", error);
     }
   };
 
   const handleGetDirections = () => {
-    if (destination.trim() === '') {
-      Alert.alert('Erreur', 'Veuillez saisir une destination valide.');
+    if (destination.trim() === "") {
+      Alert.alert("Erreur", "Veuillez saisir une destination valide.");
       return;
     }
 
@@ -1923,9 +1901,11 @@ export default function API_map() {
   };
 
   const toggleMapType = () => {
+    console.log(mapType);
     setMapType((prevMapType) =>
       prevMapType === "standard" ? "satellite" : "standard"
     );
+    console.log(mapType);
   };
 
   const traceRouteOnReady = (args) => {
@@ -1938,7 +1918,7 @@ export default function API_map() {
   return (
     <View style={styles.container}>
       <MapView
-        minZoomLevel={17}
+        minZoomLevel={1}
         maxZoomLevel={20}
         mapType={mapType}
         style={styles.map}
@@ -1957,25 +1937,31 @@ export default function API_map() {
           description="El jadida, Maroc"
           showCallout
         >
-        
-            <Text style={{ marginBottom: 10, textAlign: 'center',backgroundColor: "rgba(255, 255, 255, 0.7)",padding: 12,color:"red",borderRadius: 8, }}>Fs el jadida</Text>
-          
+          <Text
+            style={{
+              marginBottom: 10,
+              textAlign: "center",
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              padding: 12,
+              color: "red",
+              borderRadius: 8,
+            }}
+          >
+            Fs el jadida
+          </Text>
         </Marker>
-
-       
-       
 
         {userLocation && (
           <Marker
             coordinate={userLocation}
-            image={userPinImage}
-            style={styles.markerStyle}          
+            image={mapType === "standard" ? blackMarker : whiteMarker}
+            style={styles.markerStyle}
           />
         )}
         {destinationCoordinates && (
           <Marker
             coordinate={destinationCoordinates}
-            image={userPinImage}
+            image={mapType === "standard" ? blackMarker : whiteMarker}
             style={styles.markerStyle}
           />
         )}
@@ -1983,62 +1969,73 @@ export default function API_map() {
           <MapViewDirections
             origin={userLocation}
             destination={destinationCoordinates}
-            apikey={'AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4'}
+            apikey={"AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4"}
             strokeWidth={4}
             strokeColor="#aac582"
             mode="WALKING"
             onReady={traceRouteOnReady}
-            
           />
-          
         )}
 
-        
-
-  {destinationCoordinates && userLocation && (
-  locations.map((item, index) => {
-    // Vérifier si l'emplacement correspond à la destination souhaitée
-    if (item.coordinates === destinationCoordinates) {
-      return (
-        <Marker key={index} coordinate={item.coordinates} title={item.name} description={item.name} 
-        >
-        
-            <Text style={{ backgroundColor: "#aac582", color:"white",padding: 9,borderRadius: 8, marginBottom: 62, textAlign: 'center' }}>{item.name}</Text>
-        
-        </Marker>
-      );
-    }
-    // Retourner null si l'emplacement ne correspond pas à la destination souhaitée
-    return null;
-  })
-)}
-
-
-
+        {destinationCoordinates &&
+          userLocation &&
+          locations.map((item, index) => {
+            // Vérifier si l'emplacement correspond à la destination souhaitée
+            if (item.coordinates === destinationCoordinates) {
+              return (
+                <Marker
+                  key={index}
+                  coordinate={item.coordinates}
+                  title={item.name}
+                  description={item.name}
+                >
+                  <Text
+                    style={{
+                      backgroundColor: "#aac582",
+                      color: "white",
+                      padding: 9,
+                      borderRadius: 8,
+                      marginBottom: 62,
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                </Marker>
+              );
+            }
+            // Retourner null si l'emplacement ne correspond pas à la destination souhaitée
+            return null;
+          })}
       </MapView>
 
-      <TextInput
-        style={styles.destinationInput}
-        value={destination}
-        onChangeText={setDestination}
-        placeholder="Votre destination ?"
-      />
+      <View style={styles.destinationInputContainer}>
+        <TextInput
+          style={styles.destinationInput}
+          value={destination}
+          onChangeText={setDestination}
+          placeholder="Votre destination ?"
+        />
+        <TouchableOpacity
+          style={styles.getDirectionsButton}
+          onPress={handleGetDirections}
+        >
+          <Text style={styles.getDirectionsButtonText}>
+            chercher la destination
+          </Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.getDirectionsButton} onPress={handleGetDirections}>
-        <Text style={styles.getDirectionsButtonText}>chercher la destination</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.mapTypeButton} onPress={toggleMapType}>
-        <Text style={styles.mapTypeButtonText}>
-          {mapType === "standard"
-            ? "Mode satellite"
-            : "Mode standard"}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.mapTypeButton} onPress={toggleMapType}>
+          <Image
+            source={require("./assets/layer.png")}
+            style={{ width: 24, height: 24 }}
+          />
+        </TouchableOpacity>
+      </View>
 
       {distance && duration ? (
         <View style={styles.tripInfoContainer}>
-        <Text>De votre position à {destination} :</Text>
+          <Text>De votre position à {destination} :</Text>
           <Text>Distance: {distance.toFixed(2)} km</Text>
           <Text>Durée estimée: {Math.ceil(duration)} min</Text>
         </View>
@@ -2054,42 +2051,45 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-  destinationInput: {
+  destinationInputContainer: {
     position: "absolute",
-    top: 16,
-    right: 16,
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-    padding: 12,
+    top: 8,
+    right: 8,
+    left: 8,
     borderRadius: 8,
     zIndex: 1,
+    flexDirection: "column",
+    gap: 8,
+    alignItems: "flex-end",
+  },
+  destinationInput: {
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    padding: 12,
+    borderRadius: 8,
+    width: "100%",
   },
   getDirectionsButton: {
-    position: "absolute",
-    bottom: 16,
-    left: 16,
-    backgroundColor: "#aac582",
+    backgroundColor: "black",
     padding: 12,
     borderRadius: 8,
-    zIndex: 1,
+    width: "100%",
+    alignItems: "center",
   },
   getDirectionsButtonText: {
     fontWeight: "bold",
-    color: "#848c78",
-
+    color: "white",
   },
   mapTypeButton: {
-    position: "absolute",
-    top: 16,
-    left: 16,
-    backgroundColor: "#aac582",
+    right: 0,
+    backgroundColor: "rgba(200, 200, 200, 0.7)",
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 50,
     zIndex: 1,
+    width: 48,
   },
   mapTypeButtonText: {
     fontWeight: "bold",
     color: "#848c78",
-
   },
   tripInfoContainer: {
     position: "absolute",
@@ -2109,8 +2109,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     zIndex: 1,
   },
-  markerStyle :{
-    Color :"#848c78",
-    
+  markerStyle: {
+    Color: "#848c78",
   },
 });

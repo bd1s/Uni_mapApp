@@ -202,7 +202,7 @@ export default function App() {
 //   );
 // }
 // App.js
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "./components/WelcomeScreen";
@@ -211,11 +211,48 @@ import SignUpScreen from "./components/SignUpScreen";
 import HomeScreen from "./components/HomeScreen";
 import API_map from "./API_map";
 import { useState } from "react";
+import { PermissionsAndroid } from "react-native";
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.requestMultiple(
+          [
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+          ],
+          {
+            title: "Permission d'accès à la localisation",
+            message:
+              "L'application a besoin de votre permission pour accéder à votre localisation.",
+            buttonNeutral: "Demander plus tard",
+            buttonNegative: "Annuler",
+            buttonPositive: "OK",
+          }
+        );
+        console.log(granted);
+        console.log(PermissionsAndroid.RESULTS.GRANTED);
+        if (
+          granted["android.permission.ACCESS_FINE_LOCATION"] === "granted" &&
+          granted["android.permission.ACCESS_COARSE_LOCATION"] === "granted"
+        ) {
+          console.log("Vous pouvez utiliser la localisation");
+        } else {
+          console.log("La permission de localisation a été refusée");
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+
+    requestLocationPermission();
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
