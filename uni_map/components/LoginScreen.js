@@ -10,7 +10,6 @@ import { auth } from "../API";
 const LoginScreen = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const navigation = useNavigation(); // Initialiser la navigation
 
   const handleLogin = async () => {
@@ -24,22 +23,23 @@ const LoginScreen = ({ setIsAuth }) => {
       setIsAuth(true);
       navigation.navigate("Home"); // Correction de la navigation vers 'Mapconfig'
     } catch (error) {
-      setError(error.code);
       console.log(error.code);
-    }
-
-    if (error === "" || password === "") {
-      Alert.alert("Erreur", "Veuillez remplir tous les champs");
-    } else if (error === "auth/invalid-email") {
-      Alert.alert("Erreur", "Adresse email invalide");
-    } else if (error === "auth/user-not-found") {
-      Alert.alert("Erreur", "Utilisateur non trouvé");
-    } else if (error === "auth/wrong-password") {
-      Alert.alert("Erreur", "Mot de passe incorrect");
-    } else if (error === "auth/too-many-requests") {
-      Alert.alert("Erreur", "Trop de tentatives. Veuillez réessayer plus tard");
-    } else if (error === "auth/invalid-credential") {
-      Alert.alert("Erreur", "Informations d'identification non valides");
+      if (email === "" || password === "") {
+        Alert.alert("Erreur", "Veuillez remplir tous les champs");
+      } else if (error.code === "auth/invalid-email") {
+        Alert.alert("Erreur", "Adresse email invalide");
+      } else if (error.code === "auth/user-not-found") {
+        Alert.alert("Erreur", "Utilisateur non trouvé");
+      } else if (error.code === "auth/wrong-password") {
+        Alert.alert("Erreur", "Mot de passe incorrect");
+      } else if (error.code === "auth/too-many-requests") {
+        Alert.alert(
+          "Erreur",
+          "Trop de tentatives. Veuillez réessayer plus tard"
+        );
+      } else if (error.code === "auth/invalid-credential") {
+        Alert.alert("Erreur", "Informations d'identification non valides");
+      }
     }
   };
 

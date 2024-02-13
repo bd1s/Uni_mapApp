@@ -10,7 +10,6 @@ import { auth } from "../API";
 const SignUpScreen = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const navigation = useNavigation(); // Initialiser la navigation
 
   const handleSignUp = async () => {
@@ -24,18 +23,16 @@ const SignUpScreen = ({ setIsAuth }) => {
       setIsAuth(true);
       navigation.navigate("Home"); // Correction de la navigation vers 'Mapconfig'
     } catch (error) {
-      setError(error.code);
       console.log(error.code);
-    }
-
-    if (error === "" || password === "") {
-      Alert.alert("Erreur", "Veuillez remplir tous les champs");
-    } else if (error === "auth/invalid-email") {
-      Alert.alert("Erreur", "Adresse email invalide");
-    } else if (error === "auth/invalid-password") {
-      Alert.alert("Erreur", "Mot de passe invalide: 6 caractères minimum");
-    } else if (error === "auth/email-already-exists") {
-      Alert.alert("Erreur", "Cet email est déjà utilisé");
+      if (email === "" || password === "") {
+        Alert.alert("Erreur", "Veuillez remplir tous les champs");
+      } else if (error.code === "auth/invalid-email") {
+        Alert.alert("Erreur", "Adresse email invalide");
+      } else if (error.code === "auth/invalid-password") {
+        Alert.alert("Erreur", "Mot de passe invalide: 6 caractères minimum");
+      } else if (error.code === "auth/email-already-exists") {
+        Alert.alert("Erreur", "Cet email est déjà utilisé");
+      }
     }
   };
 
