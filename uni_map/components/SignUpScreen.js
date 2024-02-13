@@ -7,16 +7,16 @@ import {
 } from "firebase/auth";
 import { auth } from "../API";
 
-const LoginScreen = ({ setIsAuth }) => {
+const SignUpScreen = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigation = useNavigation(); // Initialiser la navigation
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     try {
       // Utiliser la méthode signInWithEmailAndPassword pour authentifier l'utilisateur
-      const userCredential = await signInWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
@@ -32,21 +32,17 @@ const LoginScreen = ({ setIsAuth }) => {
       Alert.alert("Erreur", "Veuillez remplir tous les champs");
     } else if (error === "auth/invalid-email") {
       Alert.alert("Erreur", "Adresse email invalide");
-    } else if (error === "auth/user-not-found") {
-      Alert.alert("Erreur", "Utilisateur non trouvé");
-    } else if (error === "auth/wrong-password") {
-      Alert.alert("Erreur", "Mot de passe incorrect");
-    } else if (error === "auth/too-many-requests") {
-      Alert.alert("Erreur", "Trop de tentatives. Veuillez réessayer plus tard");
-    } else if (error === "auth/invalid-credential") {
-      Alert.alert("Erreur", "Informations d'identification non valides");
+    } else if (error === "auth/invalid-password") {
+      Alert.alert("Erreur", "Mot de passe invalide: 6 caractères minimum");
+    } else if (error === "auth/email-already-exists") {
+      Alert.alert("Erreur", "Cet email est déjà utilisé");
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.loginPage}>
-        <Text>Connectez-vous</Text>
+        <Text>Inscrivez vous</Text>
 
         <View style={styles.formContainer}>
           <TextInput
@@ -65,8 +61,8 @@ const LoginScreen = ({ setIsAuth }) => {
             onChangeText={setPassword}
             secureTextEntry
           />
-          <Pressable onPress={handleLogin} style={styles.authButtons}>
-            <Text style={styles.text}>Se connecter</Text>
+          <Pressable onPress={handleSignUp} style={styles.authButtons}>
+            <Text style={styles.text}>S'inscrire</Text>
           </Pressable>
         </View>
       </View>
@@ -116,4 +112,4 @@ const styles = {
   },
 };
 
-export default LoginScreen;
+export default SignUpScreen;

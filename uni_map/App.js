@@ -146,9 +146,9 @@ const styles = StyleSheet.create({
 //       <Stack.Navigator>
 //         <Stack.Screen name="HomePage" component={HomePage} />
 //         <Stack.Screen name="LoginPage" component={LoginPage} />
-//         <Stack.Screen 
-//           name="WelcomePage" 
-//           component={WelcomePage} 
+//         <Stack.Screen
+//           name="WelcomePage"
+//           component={WelcomePage}
 //           initialParams={{ username: 'Utilisateur' }}
 //         />
 //         <Stack.Screen name="API_map" component={API_map} /> {/* Ajout de la page contenant la carte */}
@@ -202,14 +202,15 @@ export default function App() {
 //   );
 // }
 // App.js
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import WelcomeScreen from './components/WelcomeScreen';
-import LoginScreen from './components/LoginScreen';
-import HomeScreen from './components/HomeScreen';
-import API_map from './API_map';
-import  { useState } from 'react';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import WelcomeScreen from "./components/WelcomeScreen";
+import LoginScreen from "./components/LoginScreen";
+import SignUpScreen from "./components/SignUpScreen";
+import HomeScreen from "./components/HomeScreen";
+import API_map from "./API_map";
+import { useState } from "react";
 
 const Stack = createStackNavigator();
 
@@ -221,9 +222,12 @@ const App = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login">
           {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
-        </Stack.Screen>       
-         <Stack.Screen name="Home" component={HomeScreen} />
-        
+        </Stack.Screen>
+        <Stack.Screen name="Register">
+          {(props) => <SignUpScreen {...props} setIsAuth={setIsLoggedIn} />}
+        </Stack.Screen>
+
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Map" component={API_map} />
       </Stack.Navigator>
     </NavigationContainer>
