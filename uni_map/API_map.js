@@ -1852,7 +1852,7 @@ export default function API_map() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const blackMarker = require("./assets/marker-black.png");
-  const whiteMarker = require("./assets/marker-black.png");
+  const whiteMarker = require("./assets/marker-white.png");
 
   useEffect(() => {
     const checkUserLocation = async () => {
