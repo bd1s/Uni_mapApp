@@ -209,16 +209,21 @@ import WelcomeScreen from './components/WelcomeScreen';
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/HomeScreen';
 import API_map from './API_map';
+import  { useState } from 'react';
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login">
+          {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
+        </Stack.Screen>       
+         <Stack.Screen name="Home" component={HomeScreen} />
+        
         <Stack.Screen name="Map" component={API_map} />
       </Stack.Navigator>
     </NavigationContainer>

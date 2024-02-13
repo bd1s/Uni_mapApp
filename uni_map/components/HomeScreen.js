@@ -7,9 +7,7 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* Barre de navigation en haut */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.navText}>Formations</Text>
-        </TouchableOpacity>
+        
         <TouchableOpacity onPress={() => {}}>
           <Text style={styles.navText}>Emplacements</Text>
         </TouchableOpacity>

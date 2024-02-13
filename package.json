@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-firebase/app": "^18.8.0",
     "firebase": "^10.8.0",
     "react-native-maps-directions": "^1.9.0"
