@@ -16,37 +16,58 @@
 // export default WelcomeScreen;
 // WelcomeScreen.js
 import React from "react";
-import { View, Text, Button, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ImageBackground,
+} from "react-native";
 
 const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to MyUni App!</Text>
-      <View style={styles.buttonsContainer}>
-        <Pressable
-          style={styles.authButtons}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.text}>Se connecter</Text>
-        </Pressable>
-        <Pressable
-          style={styles.authButtons}
-          onPress={() => navigation.navigate("Register")}
-        >
-          <Text style={styles.text}>S'inscrire</Text>
-        </Pressable>
-      </View>
+      <ImageBackground
+        source={require("../assets/unipic.jpg")}
+        resizeMode="cover"
+        style={styles.image}
+      >
+        <Text style={styles.title}>Welcome to MyUni App!</Text>
+        <View style={styles.buttonsContainer}>
+          <Pressable
+            style={styles.authButtons}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.text}>Se connecter</Text>
+          </Pressable>
+          <Pressable
+            style={styles.authButtons}
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text style={styles.text}>S'inscrire</Text>
+          </Pressable>
+        </View>
+      </ImageBackground>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    width: "100%",
+    margin: 0,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f0f0f0",
     width: "100%",
+    margin: 0,
   },
   title: {
     fontSize: 24,

@@ -210,8 +210,16 @@ import LoginScreen from "./components/LoginScreen";
 import SignUpScreen from "./components/SignUpScreen";
 import HomeScreen from "./components/HomeScreen";
 import API_map from "./API_map";
+import HomeScreenHeader from "./components/HomeScreenHeader";
 import { useState } from "react";
-import { PermissionsAndroid } from "react-native";
+import {
+  PermissionsAndroid,
+  Image,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 const Stack = createStackNavigator();
 
@@ -255,8 +263,19 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Navigator
+        initialRouteName="Welcome"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#848c78",
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Login">
           {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
         </Stack.Screen>
@@ -264,7 +283,14 @@ const App = () => {
           {(props) => <SignUpScreen {...props} setIsAuth={setIsLoggedIn} />}
         </Stack.Screen>
 
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={({ navigation }) => ({
+            headerTitle: () => <HomeScreenHeader nav={navigation} />,
+            headerTransparent: true,
+          })}
+        />
         <Stack.Screen name="Map" component={API_map} />
       </Stack.Navigator>
     </NavigationContainer>

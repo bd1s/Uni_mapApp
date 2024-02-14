@@ -1,41 +1,40 @@
 // HomeScreen.js
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      {/* Barre de navigation en haut */}
-      <View style={styles.header}>
-        
-        <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.navText}>Emplacements</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Map')}>
-          <Text style={styles.navText}>Explorer</Text>
-        </TouchableOpacity>
-      </View>
-      {/* Contenu de la page */}
+      <Image
+        source={require("../assets/homeunipic.jpg")}
+        resizeMode="cover"
+        style={styles.image}
+      ></Image>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  image: {
+    height: undefined,
+    aspectRatio: 1,
+    margin: 0,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     height: 60,
-    backgroundColor: '#848c78'
+    backgroundColor: "#848c78",
   },
   navText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
 });
 
