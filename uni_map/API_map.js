@@ -1711,7 +1711,7 @@
 
 /////Brazar
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -1720,10 +1720,14 @@ import {
   Alert,
   TextInput,
   Image,
+  DrawerLayoutAndroid,
+  Button,
+  FlatList,
 } from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
+import Searchbar from "./components/InstructionsScreen";
 
 const facultyCoordinates = {
   latitude: 33.2258,
@@ -1855,6 +1859,7 @@ export default function API_map() {
   const [duration, setDuration] = useState(0);
   const blackMarker = require("./assets/marker-black.png");
   const whiteMarker = require("./assets/marker-white.png");
+  const drawer = useRef(null);
 
   useEffect(() => {
     const checkUserLocation = async () => {
@@ -1873,6 +1878,26 @@ export default function API_map() {
 
     checkUserLocation();
   }, []);
+
+  const BlocsList = () => (
+    <View style={[styles.container, styles.navigationContainer]}>
+      <TouchableOpacity
+        style={styles.closeDrawerButton}
+        onPress={() => drawer.current.closeDrawer()}
+      >
+        <Image
+          source={require("./assets/close.png")}
+          style={{ width: 16, height: 16 }}
+        />
+      </TouchableOpacity>
+
+      <FlatList
+        data={locations}
+        renderItem={({ item }) => <Text style={styles.item}>{item.name}</Text>}
+        style={{ marginTop: 88, left: 0, right: 0, bottom: 0 }}
+      />
+    </View>
+  );
 
   const getDestinationCoordinates = async () => {
     try {
@@ -1918,131 +1943,150 @@ export default function API_map() {
   };
 
   return (
-    <View style={styles.container}>
-      <MapView
-        minZoomLevel={1}
-        maxZoomLevel={20}
-        mapType={mapType}
-        style={styles.map}
-        initialRegion={{
-          ...facultyCoordinates,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.002,
-        }}
-        provider={PROVIDER_GOOGLE}
-        showsUserLocation={true}
-        followsUserLocation={true}
-      >
-        <Marker
-          coordinate={facultyCoordinates}
-          title="Faculté des Sciences"
-          description="El jadida, Maroc"
-          showCallout
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={300}
+      drawerPosition={"left"}
+      renderNavigationView={BlocsList}
+    >
+      <View style={styles.container}>
+        <MapView
+          minZoomLevel={1}
+          maxZoomLevel={20}
+          mapType={mapType}
+          style={styles.map}
+          initialRegion={{
+            ...facultyCoordinates,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
+          }}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          followsUserLocation={true}
         >
-          <Text
-            style={{
-              marginBottom: 10,
-              textAlign: "center",
-              backgroundColor: "rgba(255, 255, 255, 0.7)",
-              padding: 12,
-              color: "red",
-              borderRadius: 8,
-            }}
+          <Marker
+            coordinate={facultyCoordinates}
+            title="Faculté des Sciences"
+            description="El jadida, Maroc"
+            showCallout
           >
-            Fs el jadida
-          </Text>
-        </Marker>
+            <Text
+              style={{
+                marginBottom: 10,
+                textAlign: "center",
+                backgroundColor: "rgba(255, 255, 255, 0.7)",
+                padding: 12,
+                color: "red",
+                borderRadius: 8,
+              }}
+            >
+              Fs el jadida
+            </Text>
+          </Marker>
 
-        {userLocation && (
-          <Marker
-            coordinate={userLocation}
-            image={mapType === "standard" ? blackMarker : whiteMarker}
-            style={styles.markerStyle}
-          />
-        )}
-        {destinationCoordinates && (
-          <Marker
-            coordinate={destinationCoordinates}
-            image={mapType === "standard" ? blackMarker : whiteMarker}
-            style={styles.markerStyle}
-          />
-        )}
-        {destinationCoordinates && userLocation && (
-          <MapViewDirections
-            origin={userLocation}
-            destination={destinationCoordinates}
-            apikey={"AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4"}
-            strokeWidth={4}
-            strokeColor="#aac582"
-            mode="WALKING"
-            onReady={traceRouteOnReady}
-          />
-        )}
+          {userLocation && (
+            <Marker
+              coordinate={userLocation}
+              image={mapType === "standard" ? blackMarker : whiteMarker}
+              style={styles.markerStyle}
+            />
+          )}
+          {destinationCoordinates && (
+            <Marker
+              coordinate={destinationCoordinates}
+              image={mapType === "standard" ? blackMarker : whiteMarker}
+              style={styles.markerStyle}
+            />
+          )}
+          {destinationCoordinates && userLocation && (
+            <MapViewDirections
+              origin={userLocation}
+              destination={destinationCoordinates}
+              apikey={"AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4"}
+              strokeWidth={4}
+              strokeColor="#aac582"
+              mode="WALKING"
+              onReady={traceRouteOnReady}
+            />
+          )}
 
-        {destinationCoordinates &&
-          userLocation &&
-          locations.map((item, index) => {
-            //Vérifier si l'emplacement correspond à la destination souhaitée
-            if (item.coordinates === destinationCoordinates) {
-              return (
-                <Marker
-                  key={index}
-                  coordinate={item.coordinates}
-                  title={item.name}
-                  description={item.name}
-                >
-                  <Text
-                    style={{
-                      backgroundColor: "#aac582",
-                      color: "white",
-                      padding: 9,
-                      borderRadius: 8,
-                      marginBottom: 62,
-                      textAlign: "center",
-                    }}
+          {destinationCoordinates &&
+            userLocation &&
+            locations.map((item, index) => {
+              //Vérifier si l'emplacement correspond à la destination souhaitée
+              if (item.coordinates === destinationCoordinates) {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={item.coordinates}
+                    title={item.name}
+                    description={item.name}
                   >
-                    {item.name}
-                  </Text>
-                </Marker>
-              );
-            }
-            //Retourner null si l'emplacement ne correspond pas à la destination souhaitée
-            return null;
-          })}
-      </MapView>
+                    <Text
+                      style={{
+                        backgroundColor: "#aac582",
+                        color: "white",
+                        padding: 9,
+                        borderRadius: 8,
+                        marginBottom: 62,
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                  </Marker>
+                );
+              }
+              //Retourner null si l'emplacement ne correspond pas à la destination souhaitée
+              return null;
+            })}
+        </MapView>
 
-      <View style={styles.destinationInputContainer}>
-        <TextInput
-          style={styles.destinationInput}
-          value={destination}
-          onChangeText={setDestination}
-          placeholder="Votre destination ?"
-        />
-        <TouchableOpacity
-          style={styles.getDirectionsButton}
-          onPress={handleGetDirections}
-        >
-          <Text style={styles.getDirectionsButtonText}>
-            chercher la destination
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.mapTypeButton} onPress={toggleMapType}>
-          <Image
-            source={require("./assets/layer.png")}
-            style={{ width: 24, height: 24 }}
+        <View style={styles.destinationInputContainer}>
+          <TextInput
+            style={styles.destinationInput}
+            value={destination}
+            onChangeText={setDestination}
+            placeholder="Votre destination ?"
           />
-        </TouchableOpacity>
-      </View>
 
-      {distance && duration ? (
-        <View style={styles.tripInfoContainer}>
-          <Text>De votre position à {destination} :</Text>
-          <Text>Distance: {distance.toFixed(2)} km</Text>
-          <Text>Durée estimée: {Math.ceil(duration)} min</Text>
+          <TouchableOpacity
+            style={styles.SearchButton}
+            onPress={handleGetDirections}
+          >
+            <Image
+              source={require("./assets/search.png")}
+              style={{ width: 24, height: 24 }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mapTypeButton}
+            onPress={toggleMapType}
+          >
+            <Image
+              source={require("./assets/layer.png")}
+              style={{ width: 24, height: 24 }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mapTypeButton}
+            onPress={() => drawer.current.openDrawer()}
+          >
+            <Image source={blackMarker} style={{ width: 24, height: 24 }} />
+          </TouchableOpacity>
         </View>
-      ) : null}
-    </View>
+
+        {distance && duration ? (
+          <View style={styles.tripInfoContainer}>
+            <Text>De votre position à {destination} :</Text>
+            <Text>Distance: {distance.toFixed(2)} km</Text>
+            <Text>Durée estimée: {Math.ceil(duration)} min</Text>
+          </View>
+        ) : null}
+      </View>
+    </DrawerLayoutAndroid>
   );
 }
 
@@ -2055,9 +2099,9 @@ const styles = StyleSheet.create({
   },
   destinationInputContainer: {
     position: "absolute",
-    top: 8,
-    right: 8,
-    left: 8,
+    top: 34,
+    right: 16,
+    left: 48,
     borderRadius: 8,
     zIndex: 1,
     flexDirection: "column",
@@ -2089,6 +2133,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: 48,
   },
+  SearchButton: {
+    position: "absolute",
+    right: 0,
+    backgroundColor: "rgba(200, 200, 200, 0)",
+    padding: 12,
+    borderRadius: 50,
+    zIndex: 1,
+    width: 48,
+  },
   mapTypeButtonText: {
     fontWeight: "bold",
     color: "#848c78",
@@ -2114,6 +2167,23 @@ const styles = StyleSheet.create({
   markerStyle: {
     Color: "#848c78",
   },
+  navigationContainer: {
+    backgroundColor: "white",
+  },
+  paragraph: {
+    padding: 16,
+    fontSize: 16,
+    textAlign: "center",
+  },
+  closeDrawerButton: {
+    position: "absolute",
+    top: 52,
+    right: 16,
+  },
+  item: {
+    padding: 16,
+    fontSize: 16,
+  },
 });
 
 /* //Me
@@ -2126,6 +2196,7 @@ import {
   Alert,
   TextInput,
 } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, Alert, TextInput ,DrawerLayoutAndroid} from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";

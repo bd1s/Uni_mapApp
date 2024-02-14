@@ -201,7 +201,100 @@ export default function App() {
 //     </NavigationContainer>
 //   );
 // }
-// App.js
+
+// import React, { useEffect } from "react";
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createStackNavigator } from "@react-navigation/stack";
+// import WelcomeScreen from "./components/WelcomeScreen";
+// import LoginScreen from "./components/LoginScreen";
+// import SignUpScreen from "./components/SignUpScreen";
+// import HomeScreen from "./components/HomeScreen";
+// import API_map from "./API_map";
+// import { useState } from "react";
+// import { PermissionsAndroid } from "react-native";
+
+// const Stack = createStackNavigator();
+
+// const App = () => {
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+//   useEffect(() => {
+//     const requestLocationPermission = async () => {
+//       try {
+//         const granted = await PermissionsAndroid.requestMultiple(
+//           [
+//             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+//             PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+//           ],
+//           {
+//             title: "Permission d'accès à la localisation",
+//             message:
+//               "L'application a besoin de votre permission pour accéder à votre localisation.",
+//             buttonNeutral: "Demander plus tard",
+//             buttonNegative: "Annuler",
+//             buttonPositive: "OK",
+//           }
+//         );
+//         console.log(granted);
+//         console.log(PermissionsAndroid.RESULTS.GRANTED);
+//         if (
+//           granted["android.permission.ACCESS_FINE_LOCATION"] === "granted" &&
+//           granted["android.permission.ACCESS_COARSE_LOCATION"] === "granted"
+//         ) {
+//           console.log("Vous pouvez utiliser la localisation");
+//         } else {
+//           console.log("La permission de localisation a été refusée");
+//         }
+//       } catch (err) {
+//         console.warn(err);
+//       }
+//     };
+
+//     requestLocationPermission();
+//   });
+
+// //   return (
+
+// //     <NavigationContainer>
+// //       <Stack.Navigator initialRouteName="Welcome">
+// //         <Stack.Screen name="Welcome" component={WelcomeScreen} />
+
+// //         <Stack.Screen name="Login">
+// //           {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
+// //         </Stack.Screen>
+// //         <Stack.Screen name="Register">
+// //           {(props) => <SignUpScreen {...props} setIsAuth={setIsLoggedIn} />}
+// //         </Stack.Screen>
+
+// //         <Stack.Screen name="Home" component={HomeScreen} />
+// //         <Stack.Screen name="Map" component={API_map} />
+// //       </Stack.Navigator>
+// //     </NavigationContainer>
+// //   );
+// // };
+// return (
+//   <NavigationContainer>
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       {!isAuth ? (
+//         <Stack.Screen name="Welcome">
+//           {() => <WelcomeScreen onAnimationComplete={() => setIsAuth(true)} />}
+//         </Stack.Screen>
+//       ) : (
+//         <>
+//         <Stack.Screen name="Login">
+//           {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
+//         </Stack.Screen>
+//         <Stack.Screen name="Home" component={HomeScreen} />
+//         <Stack.Screen name="Map" component={API_map} />
+//         </>
+//       )}
+//     </Stack.Navigator>
+//   </NavigationContainer>
+// );
+// };
+
+// export default App;
+
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -220,6 +313,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import InstructionsScreen from "./components/InstructionsScreen";
 
 const Stack = createStackNavigator();
 
@@ -259,42 +353,56 @@ const App = () => {
     };
 
     requestLocationPermission();
-  });
+  }, []);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Welcome"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#848c78",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Login">
-          {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
-        </Stack.Screen>
-        <Stack.Screen name="Register">
-          {(props) => <SignUpScreen {...props} setIsAuth={setIsLoggedIn} />}
-        </Stack.Screen>
-
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ navigation }) => ({
-            headerTitle: () => <HomeScreenHeader nav={navigation} />,
-            headerTransparent: true,
-          })}
-        />
-        <Stack.Screen name="Map" component={API_map} />
+      <Stack.Navigator>
+        {!isLoggedIn ? (
+          <Stack.Screen name="Welcome" options={{ headerShown: false }}>
+            {() => (
+              <WelcomeScreen onAnimationComplete={() => setIsLoggedIn(true)} />
+            )}
+          </Stack.Screen>
+        ) : (
+          <>
+            <Stack.Screen name="Login" options={{ headerShown: false }}>
+              {(props) => <LoginScreen {...props} setIsAuth={setIsLoggedIn} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={({ navigation }) => ({
+                headerTitle: () => <HomeScreenHeader nav={navigation} />,
+                headerTransparent: true,
+              })}
+            />
+            <Stack.Screen
+              name="Map"
+              component={API_map}
+              options={{ title: "", headerTransparent: true }}
+            />
+            <Stack.Screen
+              name="Instructions"
+              component={InstructionsScreen}
+              options={{
+                headerStyle: {
+                  backgroundColor: "#FFFFFF",
+                },
+                headerShadowVisible: false,
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                  fontSize: 24,
+                },
+                headerTitleAlign: "center",
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default App;
+//
