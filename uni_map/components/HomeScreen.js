@@ -30,8 +30,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: 60,
-    backgroundColor: '#848c78'
-  },
+    backgroundColor: '#848c78',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }
+  ,
   navText: {
     fontSize: 16,
     fontWeight: 'bold',
