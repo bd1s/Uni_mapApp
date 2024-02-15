@@ -2138,7 +2138,7 @@ const styles = StyleSheet.create({
   },
   destinationInputContainer: {
     position: "absolute",
-    top: 36,
+    top: 40,
     right: 16,
     left: 48,
     borderRadius: 8,
@@ -2152,6 +2152,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     width: "100%",
+    height: 44,
   },
   getDirectionsButton: {
     backgroundColor: "black",
@@ -2167,19 +2168,19 @@ const styles = StyleSheet.create({
   mapTypeButton: {
     right: 0,
     backgroundColor: "rgba(200, 200, 200, 0.7)",
-    padding: 12,
+    padding: 8,
     borderRadius: 50,
     zIndex: 1,
-    width: 48,
+    width: 40,
   },
   SearchButton: {
     position: "absolute",
     right: 0,
     backgroundColor: "rgba(200, 200, 200, 0)",
-    padding: 12,
+    padding: 10,
     borderRadius: 50,
     zIndex: 1,
-    width: 48,
+    width: 44,
   },
   mapTypeButtonText: {
     fontWeight: "bold",
