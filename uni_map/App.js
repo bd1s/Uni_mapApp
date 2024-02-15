@@ -305,6 +305,7 @@ import HomeScreen from "./components/HomeScreen";
 import API_map from "./API_map";
 import HomeScreenHeader from "./components/HomeScreenHeader";
 import { useState } from "react";
+import * as Permissions from "expo-permissions";
 import {
   PermissionsAndroid,
   Image,
@@ -319,41 +320,6 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const requestLocationPermission = async () => {
-      try {
-        const granted = await PermissionsAndroid.requestMultiple(
-          [
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-          ],
-          {
-            title: "Permission d'accès à la localisation",
-            message:
-              "L'application a besoin de votre permission pour accéder à votre localisation.",
-            buttonNeutral: "Demander plus tard",
-            buttonNegative: "Annuler",
-            buttonPositive: "OK",
-          }
-        );
-        console.log(granted);
-        console.log(PermissionsAndroid.RESULTS.GRANTED);
-        if (
-          granted["android.permission.ACCESS_FINE_LOCATION"] === "granted" &&
-          granted["android.permission.ACCESS_COARSE_LOCATION"] === "granted"
-        ) {
-          console.log("Vous pouvez utiliser la localisation");
-        } else {
-          console.log("La permission de localisation a été refusée");
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    };
-
-    requestLocationPermission();
-  }, []);
 
   return (
     <NavigationContainer>

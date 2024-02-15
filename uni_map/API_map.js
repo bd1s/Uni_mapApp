@@ -1861,23 +1861,30 @@ export default function API_map() {
   const whiteMarker = require("./assets/marker-white.png");
   const drawer = useRef(null);
 
-  useEffect(() => {
-    const checkUserLocation = async () => {
-      try {
-        let location = await Location.getCurrentPositionAsync({});
-        setUserLocation({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.002,
-        });
-      } catch (error) {
-        console.error("Erreur de récupération de la position:", error);
-      }
-    };
+  const checkUserLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Erreur", "La permission de localisation a été refusée");
+      return;
+    }
 
-    checkUserLocation();
-  }, []);
+    try {
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.002,
+        longitudeDelta: 0.002,
+      });
+
+      console.log(location);
+    } catch (error) {
+      Alert.alert(
+        "Erreur de récupération de la position",
+        "Veillez activer votre localisation"
+      );
+    }
+  };
 
   const BlocsList = () => (
     <View style={[styles.container, styles.navigationContainer]}>
@@ -1961,7 +1968,6 @@ export default function API_map() {
             longitudeDelta: 0.002,
           }}
           provider={PROVIDER_GOOGLE}
-          showsUserLocation={true}
           followsUserLocation={true}
         >
           <Marker
@@ -2074,7 +2080,22 @@ export default function API_map() {
             style={styles.mapTypeButton}
             onPress={() => drawer.current.openDrawer()}
           >
-            <Image source={blackMarker} style={{ width: 24, height: 24 }} />
+            <Image
+              source={require("./assets/list.png")}
+              style={{ width: 24, height: 24 }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mapTypeButton}
+            onPress={() => {
+              checkUserLocation();
+            }}
+          >
+            <Image
+              source={require("./assets/target.png")}
+              style={{ width: 24, height: 24 }}
+            />
           </TouchableOpacity>
         </View>
 
