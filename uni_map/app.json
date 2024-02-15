@@ -4,10 +4,10 @@
     "slug": "uni_map",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/pinlogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/pinlogo2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -27,10 +27,16 @@
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4"
+        },
+        "icon": {
+          "adaptiveIcon": {
+            "foregroundImage": "./assets/pinlogo.png",
+            "backgroundColor": "#ffffff"
+          }
         }
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/pinlogo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.fakhreeddine.uni_map"
