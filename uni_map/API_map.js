@@ -1723,6 +1723,7 @@ import {
   DrawerLayoutAndroid,
   Button,
   FlatList,
+  PermissionsAndroid,
 } from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
@@ -1862,27 +1863,44 @@ export default function API_map() {
   const drawer = useRef(null);
 
   const checkUserLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
+    const granted = await PermissionsAndroid.requestMultiple(
+      [
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      ],
+      {
+        title: "Permission d'accès à la localisation",
+        message:
+          "L'application a besoin de votre permission pour accéder à votre localisation.",
+        buttonNeutral: "Demander plus tard",
+        buttonNegative: "Annuler",
+        buttonPositive: "OK",
+      }
+    );
+    console.log(granted);
+    console.log(PermissionsAndroid.RESULTS.GRANTED);
+    if (
+      granted["android.permission.ACCESS_FINE_LOCATION"] === "granted" &&
+      granted["android.permission.ACCESS_COARSE_LOCATION"] === "granted"
+    ) {
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+        setUserLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002,
+        });
+
+        console.log(location);
+      } catch (error) {
+        Alert.alert(
+          "Erreur de récupération de la position",
+          "Veillez activer votre localisation"
+        );
+      }
+    } else {
       Alert.alert("Erreur", "La permission de localisation a été refusée");
-      return;
-    }
-
-    try {
-      let location = await Location.getCurrentPositionAsync({});
-      setUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.002,
-        longitudeDelta: 0.002,
-      });
-
-      console.log(location);
-    } catch (error) {
-      Alert.alert(
-        "Erreur de récupération de la position",
-        "Veillez activer votre localisation"
-      );
     }
   };
 
