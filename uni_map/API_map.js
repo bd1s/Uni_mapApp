@@ -2138,7 +2138,7 @@ const styles = StyleSheet.create({
   },
   destinationInputContainer: {
     position: "absolute",
-    top: 34,
+    top: 36,
     right: 16,
     left: 48,
     borderRadius: 8,
