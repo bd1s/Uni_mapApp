@@ -2206,8 +2206,8 @@ const styles = StyleSheet.create({
   },
   markerStyle: {
     Color: "#848c78",
-    width: 48,
-    height: 48,
+    width: 24,
+    height: 24,
   },
   navigationContainer: {
     backgroundColor: "white",
