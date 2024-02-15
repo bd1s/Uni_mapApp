@@ -2138,7 +2138,7 @@ const styles = StyleSheet.create({
   },
   destinationInputContainer: {
     position: "absolute",
-    top: 34,
+    top: 2,
     right: 16,
     left: 48,
     borderRadius: 8,
@@ -2205,6 +2205,8 @@ const styles = StyleSheet.create({
   },
   markerStyle: {
     Color: "#848c78",
+    width: 48,
+    height: 48,
   },
   navigationContainer: {
     backgroundColor: "white",
