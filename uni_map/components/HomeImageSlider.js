@@ -23,7 +23,7 @@ const ImageSlider = () => {
   useEffect(() => {
     const toggle = setInterval(() => {
       setPosition(position === dataSource.length - 1 ? 0 : position + 1);
-    }, 3000);
+    }, 1000);
 
     return () => clearInterval(toggle);
   });
