@@ -206,25 +206,17 @@ export default function API_map() {
               Fs el jadida
             </Text>
           </Marker>
-
           {userLocation && (
             <Marker
               coordinate={userLocation}
-              image={mapType === "standard" ? blackMarker : whiteMarker}
-              style={styles.markerStyle}
-            />
-          )}
-          {userLocation && (
-            <Marker
-              coordinate={userLocation}
-              image={mapType === "standard" ? blackMarker : whiteMarker}
+              icon={mapType === "standard" ? blackMarker : whiteMarker}
               style={styles.markerStyle}
             ></Marker>
           )}
           {destinationCoordinates && (
             <Marker
               coordinate={destinationCoordinates}
-              image={mapType === "standard" ? blackMarker : whiteMarker}
+              icon={mapType === "standard" ? blackMarker : whiteMarker}
               style={styles.markerStyle}
             />
           )}
