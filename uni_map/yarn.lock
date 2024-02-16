@@ -5889,6 +5889,11 @@ react-native-crypto-js@1.0.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-image-slider-show@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/react-native-image-slider-show/-/react-native-image-slider-show-1.0.3.tgz"
+  integrity sha512-9Tysqt4Q1I2OIYN1hJ+291Axy9JwsKFpr1a4uxu9uDMLGgkYsOLhbsMdgj7qVBmtLWZDQ9Kr45r+LNIRmmSvGg==
+
 react-native-maps-directions@^1.9.0:
   version "1.9.0"
   resolved "https://registry.npmjs.org/react-native-maps-directions/-/react-native-maps-directions-1.9.0.tgz"
