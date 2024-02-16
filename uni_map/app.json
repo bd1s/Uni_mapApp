@@ -4,10 +4,10 @@
     "slug": "uni_map",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/pinlogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/pinlogo2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,11 +26,17 @@
     "android": {
       "config": {
         "googleMaps": {
-          "apiKey": "process.env.GOOGLE_MAPS_API_KEY"
+          "apiKey": "AIzaSyCSyvolGooAFTh7AGtHUXF92MWHoPTrt_4"
+        },
+        "icon": {
+          "adaptiveIcon": {
+            "foregroundImage": "./assets/pinlogo.png",
+            "backgroundColor": "#ffffff"
+          }
         }
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/pinlogo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.fakhreeddine.uni_map"
@@ -42,6 +48,10 @@
       "eas": {
         "projectId": "8662c0fe-7d9f-482f-86e6-5906f44f5adb"
       }
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#ffffff00",
+      "translucent": true
     }
   }
 }

@@ -295,25 +295,15 @@ export default function App() {
 
 // export default App;
 
-import React, { useEffect } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "./components/WelcomeScreen";
 import LoginScreen from "./components/LoginScreen";
-import SignUpScreen from "./components/SignUpScreen";
 import HomeScreen from "./components/HomeScreen";
 import API_map from "./API_map";
 import HomeScreenHeader from "./components/HomeScreenHeader";
 import { useState } from "react";
-import * as Permissions from "expo-permissions";
-import {
-  PermissionsAndroid,
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
 import InstructionsScreen from "./components/InstructionsScreen";
 
 const Stack = createStackNavigator();

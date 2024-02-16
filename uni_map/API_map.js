@@ -13,6 +13,7 @@ import {
   DrawerLayoutAndroid,
   Button,
   FlatList,
+  PermissionsAndroid,
 } from "react-native";
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
@@ -55,27 +56,44 @@ export default function API_map() {
   }, []);
 
   const checkUserLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
+    const granted = await PermissionsAndroid.requestMultiple(
+      [
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      ],
+      {
+        title: "Permission d'accès à la localisation",
+        message:
+          "L'application a besoin de votre permission pour accéder à votre localisation.",
+        buttonNeutral: "Demander plus tard",
+        buttonNegative: "Annuler",
+        buttonPositive: "OK",
+      }
+    );
+    console.log(granted);
+    console.log(PermissionsAndroid.RESULTS.GRANTED);
+    if (
+      granted["android.permission.ACCESS_FINE_LOCATION"] === "granted" &&
+      granted["android.permission.ACCESS_COARSE_LOCATION"] === "granted"
+    ) {
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+        setUserLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002,
+        });
+
+        console.log(location);
+      } catch (error) {
+        Alert.alert(
+          "Erreur de récupération de la position",
+          "Veillez activer votre localisation"
+        );
+      }
+    } else {
       Alert.alert("Erreur", "La permission de localisation a été refusée");
-      return;
-    }
-
-    try {
-      let location = await Location.getCurrentPositionAsync({});
-      setUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.002,
-        longitudeDelta: 0.002,
-      });
-
-      console.log(location);
-    } catch (error) {
-      Alert.alert(
-        "Erreur de récupération de la position",
-        "Veillez activer votre localisation"
-      );
     }
   };
   locations.sort((a, b) => a.name.localeCompare(b.name));
@@ -329,7 +347,7 @@ const styles = StyleSheet.create({
   },
   destinationInputContainer: {
     position: "absolute",
-    top: 34,
+    top: 40,
     right: 16,
     left: 48,
     borderRadius: 8,
@@ -343,6 +361,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     width: "100%",
+    height: 44,
   },
   getDirectionsButton: {
     backgroundColor: "black",
@@ -358,19 +377,19 @@ const styles = StyleSheet.create({
   mapTypeButton: {
     right: 0,
     backgroundColor: "rgba(200, 200, 200, 0.7)",
-    padding: 12,
+    padding: 8,
     borderRadius: 50,
     zIndex: 1,
-    width: 48,
+    width: 40,
   },
   SearchButton: {
     position: "absolute",
     right: 0,
     backgroundColor: "rgba(200, 200, 200, 0)",
-    padding: 12,
+    padding: 10,
     borderRadius: 50,
     zIndex: 1,
-    width: 48,
+    width: 44,
   },
   mapTypeButtonText: {
     fontWeight: "bold",
@@ -396,6 +415,8 @@ const styles = StyleSheet.create({
   },
   markerStyle: {
     Color: "#848c78",
+    width: 24,
+    height: 24,
   },
   navigationContainer: {
     backgroundColor: "white",

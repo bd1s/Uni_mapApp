@@ -8,14 +8,12 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import HomeImageSlider from "./HomeImageSlider";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../assets/homeunipic.jpg")}
-        style={styles.image}
-      ></Image>
+      <HomeImageSlider />
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>
           Bienvenue à la Faculté des Sciences d'El Jadida !
