@@ -1,5 +1,4 @@
-
-/////Brazar LAST V 
+/////Brazar LAST V
 
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -44,12 +43,12 @@ export default function API_map() {
   useEffect(() => {
     const fetchMarkersData = async () => {
       try {
-        const markersCollectionRef = collection(db, 'locations');
+        const markersCollectionRef = collection(db, "locations");
         const markersSnapshot = await getDocs(markersCollectionRef);
-        const markersList = markersSnapshot.docs.map(doc => doc.data());
+        const markersList = markersSnapshot.docs.map((doc) => doc.data());
         setLocations(markersList);
       } catch (error) {
-        console.error('Erreur lors de la récupération des données:', error);
+        console.error("Erreur lors de la récupération des données:", error);
       }
     };
     fetchMarkersData();
@@ -118,21 +117,29 @@ export default function API_map() {
     </View>
   );
 
- const getDestinationCoordinates = () => {
+  const getDestinationCoordinates = () => {
     try {
       const lowerCaseDestination = destination.toLowerCase().trim();
-  
+
       const destinationLocation = locations.find(
-        loc => loc.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === lowerCaseDestination.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        (loc) =>
+          loc.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") ===
+          lowerCaseDestination.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       );
-  
+
       if (destinationLocation) {
         setDestinationCoordinates(destinationLocation.coordinates);
       } else {
-        Alert.alert('Destination invalide', 'Veuillez sélectionner une destination valide parmi les options disponibles.');
+        Alert.alert(
+          "Destination invalide",
+          "Veuillez sélectionner une destination valide parmi les options disponibles."
+        );
       }
     } catch (error) {
-      console.error('Erreur de géocodage de la destination:', error);
+      console.error("Erreur de géocodage de la destination:", error);
     }
   };
 
@@ -211,20 +218,8 @@ export default function API_map() {
             <Marker
               coordinate={userLocation}
               image={mapType === "standard" ? blackMarker : whiteMarker}
-              style={styles.markerStyle}>
-              <Text
-                      style={{
-                        backgroundColor: "#aac582",
-                        color: "white",
-                        padding: 9,
-                        borderRadius: 8,
-                        marginBottom: 62,
-                        textAlign: "center",
-                      }}
-                    >
-                    Votre localisation
-                    </Text>
-                  </Marker>
+              style={styles.markerStyle}
+            ></Marker>
           )}
           {destinationCoordinates && (
             <Marker
@@ -436,8 +431,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-
 
 const locations = [
   {
