@@ -10,10 +10,13 @@ const dataSource = [
     url: require("../assets/sliderimage2.jpg"),
   },
   {
-    url: require("../assets/sliderimage3.jpg"),
+    url: require("../assets/sliderimage.jpg"),
   },
   {
-    url: require("../assets/sliderimage4.jpeg"),
+    url: require("../assets/sliderimage4.jpg"),
+  },
+  {
+    url: require("../assets/sliderimage5.jpg"),
   },
 ];
 
