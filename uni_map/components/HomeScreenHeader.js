@@ -7,9 +7,9 @@ const HomeScreenHeader = (props) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.InstructionsButton}
-          onPress={() => props.nav.navigate("Instructions")}
+          onPress={() => props.nav.navigate("Confirmation")}
         >
-          <Text style={styles.HeaderText}>Instructions</Text>
+          <Text style={styles.HeaderText}>Confirmation</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

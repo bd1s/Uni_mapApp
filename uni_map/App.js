@@ -304,7 +304,7 @@ import HomeScreen from "./components/HomeScreen";
 import API_map from "./API_map";
 import HomeScreenHeader from "./components/HomeScreenHeader";
 import { useState } from "react";
-import InstructionsScreen from "./components/InstructionsScreen";
+import ConfirmationScreen from "./components/ConfirmationScreen";
 
 const Stack = createStackNavigator();
 
@@ -339,8 +339,8 @@ const App = () => {
               options={{ title: "", headerTransparent: true }}
             />
             <Stack.Screen
-              name="Instructions"
-              component={InstructionsScreen}
+              name="Confirmation"
+              component={ConfirmationScreen}
               options={{
                 headerStyle: {
                   backgroundColor: "#FFFFFF",

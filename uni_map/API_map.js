@@ -17,7 +17,7 @@ import {
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
-import Searchbar from "./components/InstructionsScreen";
+import Searchbar from "./components/ConfirmationScreen";
 import { db } from "./API";
 import { collection, getDocs } from "firebase/firestore";
 
