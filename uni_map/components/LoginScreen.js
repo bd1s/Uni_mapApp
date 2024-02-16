@@ -192,8 +192,7 @@ const LoginScreen = ({ setIsAuth }) => {
             <Text style={styles.buttonText}>Se connecter</Text>
           </TouchableOpacity>
           <Text style={styles.note}>
-            Veuillez entrer l'email et le mot de passe que nous vous avons
-            envoyés par email.
+          Nb: Si vous êtes invité, veuillez entrer l'e-mail et le mot de passe qui vous ont été envoyés par e-mail
           </Text>
         </View>
       </View>
